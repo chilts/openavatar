@@ -1,0 +1,385 @@
+!1 Thoughts on OpenAvatar and the Open Avatar Protocol (OAP)
+
+!2 The Problem Statement
+
+Avatars are everywhere these days. It's not surprising since they are fun and
+easy to use. In fact, almost every website you go to these days, allows and
+wants you to upload an avatar for use on the site. Originally this image was
+placed next to you your forum posts but now also appear next to your blog
+posts, your comments, on your profile or anywhere where your details are shown
+or a piece of content is related to you.
+
+There are however problems with the way the current system works and they are
+twofold.
+
+\b{The Consumer}
+
+A Consumer is a site which allows it's members to upload avatars for use in
+whatever places the site deems appropriate. But this means a lot of work for
+the Consumer.
+
+Firstly each and every site has to implement behaviour for this. They have to
+have servers good enough to cope with the increased graphics load and they have
+to make sure that the avatars uploaded are of a suitable size for their site.
+
+The programmers at that site also have to deal with the upload, processing and
+display of those avatars. They should be allowed to concentrate on other more
+important matters for the site.
+
+\b{The User}
+
+The user is required to upload an image to every site for each one they wish to
+use an avatar on. This isn't too much overhead but may get unweidly if they
+have a presence on a number of sites. Let's say that the User wishes to change
+the avatar they use on a number of different sites. To go back to them all and
+upload new ones over the old ones could be a fairly tedious business.
+
+This initial document contains thoughts about how these two problems can be
+solved. It will also delve into many different areas touched upon by the Open
+Avatar protocol and let's see where this journey takes us.
+
+To solve these two problems, we also need to introduce a new entity which is
+required to make Open Avatar work. \b{The Provider} will be the person/company
+which provides both the User the ability to upload a single image for multiple
+sites and provides the Consumer an easy way to display them in whatever areas
+of the site they require.
+
+!2 Goals
+
+There are only a few and simple goals for Open Avatar. These tend to fall under
+the three entities mentioned in the Problem Statement above. The \b{User}, the
+\b{Provider} and the \b{Consumer}.
+
+!3 User Goals
+
+\b{The User} is a person who wants to use the same avatar on a number of
+different sites they log into and use.
+
+The user should:
+
+# be allowed to use whichever Open Avatar server they choose
+\
+# be allowed to switch to whichever Open Avatar server they choose
+\
+# be able to easily set up their own website to act as their Open Avatar
+  server. This means that the protocol is easy enough to implement simply for
+  just a handful of avatars
+\
+# be allowed to delete their avatars from any of the servers they no longer use
+\
+# have access to an automatic process to copy their avatar from one provider to
+  the next
+
+!3 Provider Goals
+
+\b{The Provider} is a person or company who wants to provide the serving
+aspects of the Open Avatar Protocol.
+
+The Open Avatar Protocol should:
+
+# be simple enough such that any competent programmer/company can implement the
+  protocol and become a provider
+\
+# be easy enough to implement on a large scale so that many hundreds, thousands
+  or millions of avatars can be served by one provider
+\
+# be flexible enough so that the provider can implement Open Avatar however
+  they desire
+
+!3 Consumer Goals
+
+\b{The Consumer} represents a person or site who wish to use the Open Avatar
+Protocol on their site. This would allow users of their site to display their
+own personal avatar next to content which is owned (or somehow related) to the
+user.
+
+Using the Open Avatar Protocol on a site should:
+
+# be straightforward enough to convert to for an existing site which already
+  uses and displays avatars
+\
+# be really easy to implement for a new site
+\
+# be easy enough to have as a standard part of Open Source CMS tools, such as
+  Drupal, Django, Joomla, WordPress, s9y, etc
+\
+# big enough such that established blogging platforms, social network sites and
+  many other sites can use it and support it
+
+!2 Non-Goals
+
+The Open Avatar Protocol does:
+
+# not wish to replace any existing avatar servers - such as gravatar.com
+\
+# not intend to force any existing sites to use it - though that would be
+  nice
+\
+# not define what image type can be uploaded, stored or served (upload, storage
+  and serving the images should be defined by the Provider)
+\
+# not specify any authentication mechanisms that a Provider, Consumer and User
+  may require between any or all of them
+
+This document is intended to define a standard for using, consuming and
+providing avatars that anybody can just pick up and run with but no-one
+actually owns. This means that it should provide openess, freedom and easy
+access to use and management of avatars.
+
+!2 Designing the Open Avatar Protocol
+
+When designing something these days you have to think about two things. The
+first, the implementation, comes naturally enough. But the second, the
+protocol, is a little harder. Most especially, the protocol should be simple,
+open, portable and distributed.
+
+* simple enough to be implemented by many more that just one company/individual
+* open so that anyone can be a provider and everyone can choose their provider
+* portable so that you may switch providers at any time
+* distributed so that the protocol isn't owned by any one company
+
+Obviously in this case the second thing, the protocol, is the most important
+issue and that's the one we'll be tackling first.
+
+!2 The Open Avatar Protocol
+
+!3 Background - Current Implementations
+
+As stated above, the protocol should be easy. This means it should be easy to
+define it. Firstly however, let's look at two of the current ways sites use
+avatars.
+
+\b{Custom Uploads and individual site Self-Management}
+
+Putting an image on a web page is easy. Anyone can do it.
+
+Providing the infrastructure to upload, manage and serve those images is a
+little harder. Add to this the fact that the problem has been solved many times
+before on numerous different sites and that there are many other more important
+aspects of each site to worry about that re-doing all this just wastes time
+and wastes duplicate effort.
+
+Unfortunately, this is how the majority of sites which use avatars implement
+this.
+
+\b{Gravatar}
+
+\l{Gravatar|http://gravatar.com/} is a recent phenomenon on the scene. The idea
+of centralising avatars is a good one such that that this service fulfils the
+\i{Consumer Goals}. It makes it really easy for a consumer to add avatar
+support (hosted elsewhere) to their own site.
+
+The Gravatar service also partially fulfils some of the \i{Provider Goals} but
+certainly not all.
+
+The one area which the Gravatar service does not fulfil is any of the \i{User
+Goals} since Gravatar has been designed as a single provider service and does
+not cater for other people/companies to implement it.
+
+From a technical point of view though, there are some ideas from Gravatar which
+may be inspected as potential starting points for the Open Avatar
+Protocol.
+
+Certainly the use of a hashing algorithm on the user's \b{email} address is
+advised.
+
+Ideas regarding the \b{size} parameter will be discussed later.
+
+Whether the Open Avatar Protocol will implement anything to do with the
+\b{rating} system or the \b{default} option is TBD.
+
+!3 Providing a Consumer the details of a User's Provider
+
+Being able to tell a Consumer where your Open Avatar resides is the most
+important thing of the entire protocol. Luckily, this is the easiest part of
+the entire protocol.
+
+Unlike Gravatar which requires only the user's email address, Open Avatar
+requires both the user's email address and information about his or her Open
+Avatar Provider. At the simplest level, this could be the User filling in two
+fields in their account details on the Consumer's site.
+
+ Provider : http://s.openavatar.org/
+ Email    : me@example.com
+
+In most cases though, the Consumer will already have an email address of the
+User, therefore, only one additional field (the Provider) is usually required.
+
+Once a provider is given, the Consumer should retrieve the web page which is
+located at that URL. In that webpage, the provider should provide a HTML
+\c{<link>} tag in the header of the page in the following format.
+
+ <link rel="openavatar.provider" href="http://s.openavatar.org/" />
+
+Since this Provider Base URL is retrieved once a User states their preferred
+Provider, it is assumed that if a Provider moves it's avatars to a different
+base URL that avatars already served from the old URL are still supported.
+
+The ability to do this from a page means means that a Provider may at some
+stage in the future, change the location from which the avatars are served but
+their Provider URL stays the same.
+
+This also means that if a user \c{me@example.com} chooses to use my own web
+page at \c{http://me.example.com/} as my provider, I may choose to either point
+to my own webspace for Provider URL \i{or} to a separate Open Avatar Provider
+of my choosing. This also helps when wanting to change Providers.
+
+The Consumer should store this Base URL once it has been retrieved.
+
+In the case where the Provider URL does not define a \c{openavatar.provider}
+link tag, it is assumed to be the Provider Base URL itself.
+
+Note: The Consumer may allow, under the circumstances they lay out, the ability
+for the User to add more than one Provider or more than one email address to
+the site. This document does not discuss the conditions under which a Consumer
+might allow this. The general case in which a User provides a Consumer with
+their Provider details is assumed.
+
+!3 Making a URL
+
+By showing how to make a URL to an avatar shows both the Provider where to
+serve the files from and the Consumer how to generate the URL for use on their
+site.
+
+Currently, two different URL makeups are being considered but ultimately only
+one will be chosen.
+
+Let's take the following example as the details to create the URL.
+
+ Provider : http://s.openavatar.org/
+ Email    : me@example.com
+ Size     : 64
+
+Also imagine (for the sake of argument), that the User's email address is
+hashed using the MD5 algorithm. Later in the document, other hashing
+algorithm's will be discussed.
+
+ MD5'd email : 2e0d5407ce8609047b8255c50405d7b1
+
+Therefore, the generated URL would be:
+
+ http://s.openavatar.org/2e0d5407ce8609047b8255c50405d7b1/64
+
+This enables Providers which serve the avatars images the ability to use a
+static setup (such as using Amazon S3) or a dynamic setup.
+
+The use of parameters to a base URL will not be considered here since this then
+can't be used in a static setup. Conversely, a dynamic setup is able to provide
+both ways and hence
+
+Note: the email address is in no-way manipulated before the hashing takes place
+(including lowercasing, uppercasing or any other manipulation).
+
+!3 The Details
+
+\b{The Hashing Algorithm}
+
+The hashing algorithm is an important one. Also, exactly \i{what} to hash is
+also up for discussion.
+
+It is assumed that the SHA1 hashing algorithm will be used instead of the MD5
+hashing algorithm. This is for reasons of ... etc
+
+Do we hash just the email address or, like the FOAF 'mbox_sha1sum' property,
+the email address prefixed with 'mailto:'. For example 'mailto:me@example.com'.
+
+Are there any others we might want to consider?
+
+\b{Image Sizes}
+
+Like \l{Google Code Hosting|http://code.google.com/hosting/}'s stance against
+Open Source license proliferation, Open Avatar is taking a view that most
+Consumers will require avatars in a particular size. Granted, not all
+Consumer's will use exactly the same size but hopefully one of the following
+more commonly used sizes:
+
+ * 8, 10, 16, 20, 32, 40, 50, 60, 64, 70, 75, 80, 90, 96, 100, 120, 128
+
+This means that only a certain number of images have to be stored and that no
+extra space will be taken up by images which are used relatively little. At
+this time, no other and no bigger sizes will be supported. Also, all avatars
+are assumed to be square. It is up to the Provider to determine rules around
+whether and how non-square images are cropped and/or resized.
+
+ToDo: some investigation into the actual sizes of images used in the wild.
+
+!3 Shortcuts and Helpers
+
+As seen in the example above, the Provider's Base URL is
+\c{http://s.openavatar.org/}. This can be separate from the actual URL that the
+User actually uses to upload their avatar to the Provider's servers. For
+example, a User might use \c{http://openavatar.org/} to upload their avatar but
+they are actually served from the different subdomain shown.
+
+ <link rel="openavatar.provider" href="http://s.openavatar.org/" />
+
+\b{Future Enhancements}
+
+Possible enhancements in the future might be the ability for Providers to
+\i{ping} Consumers to say that the avatars have moved. At the moment, this
+would have to be done by the Consumers periodically. In either of these cases
+neither is particularly nice and it is assumed and encouraged that the
+Providers think carefully beforehand under which Base URL to place the
+avatars. Or that they still support the avatars which had been added before the
+move.
+
+\b{Suggestions which won't make it into the Specification}
+
+When moving Providers, the ability to tell the new Provider the Base URL of
+your old Provider may help in moving. As an example, the new Provider may wish
+to retrieve the largest version of your old avatar and re-create the other
+sizes or it may wish to retrieve all sizes for direct storage.
+
+!2 A Suggested Implementation for Open Avatar
+
+!3 Avatar Storage and Serving
+
+\b{Short Term}
+
+In the short term, a regular server can be used. Probably something like
+\c{lighttpd} with Squid at the front end. This may only extend to a few
+thousand or more avatars.
+
+\b{Long Term}
+
+Amazon S3 could be used to serve the avatars themselves. Since the URL's look
+static and S3 can serve static files, this is ideally suited.
+
+Also, a subdomain (eg. s.openavatar.org) can be made to point to (CNAME?)
+openavatar.s3.amazonaws.com which means that it's really really easy to serve
+them up.
+
+ http://s.openavatar.org/2e0d5407ce8609047b8255c50405d7b1/64
+
+Which resolves to using Amazon S3 immediately.
+
+[Note to waawaa: I know why Gravatar are having so much trouble, so ask me and
+I'll let you know what I think, such has having that silly PHP script which
+seems to sit on the Elastic Compute Cloud, EC2, which is why they get nasty
+sycing errors.]
+
+!3 User Avatar Uploads
+
+The Open Avatar Protocol does not specify the rules under which an Open Avatar
+Provider must validate and check the email address of the User.
+
+The easiest thing to do would be to get the user to enter his/her email address
+and send them an email containing a 'token' which is valid only for a certain
+amount of time. This allows them to upload, change or delete their avatar at
+that address.
+
+ToDo: ask waawaa about how Gravatar did it.
+
+!2 Conclusion
+
+Re-evaluating the goals for each of the User, Consumer and Provider, we feel
+that this Open Avatar Specification fulfils each of them and hopefully in a
+simple, open, portable and distributed way.
+
+Finally, from a fluffy-bunny point of view:
+
+^ For a Consumer to utilise Open Avatar is very straighforward. For a User to
+use Open Avatar is really easy. For a Provider to implement Open Avatar is
+quite possible.
+
+(Ends)
