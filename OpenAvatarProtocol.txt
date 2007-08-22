@@ -192,6 +192,10 @@ Whether the Open Avatar Protocol will implement the \b{rating} system or the
 
 ToDo: see later for further discussion on the \b{default} parameter.
 
+\b{Pavatar}
+
+...
+
 !3 Providing a Consumer the details of a User's Provider
 
 Being able to tell a Consumer where your Open Avatar resides is the most
