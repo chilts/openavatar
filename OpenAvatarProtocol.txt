@@ -59,16 +59,18 @@ The user should:
 
 # be allowed to use whichever Open Avatar server they choose
 \
-# be allowed to switch to whichever Open Avatar server they choose
-\
-# be able to easily set up their own website to act as their Open Avatar
-  server. This means that the protocol is easy enough to implement simply for
-  just a handful of avatars
+# be allowed to update their avatars whenever they choose
 \
 # be allowed to delete their avatars from any of the servers they no longer use
 \
+# be allowed to switch to whichever Open Avatar server they choose
+\
+# be able to easily set up their own website to act as their Open Avatar
+  server. This means that the protocol is easy enough to implement for just a
+  handful of avatars
+\
 # have access to an automatic process to copy their avatar from one provider to
-  the next
+  the next (mybe, or an optional extra a Provider might provide)
 
 !3 Provider Goals
 
@@ -185,8 +187,10 @@ advised.
 
 Ideas regarding the \b{size} parameter will be discussed later.
 
-Whether the Open Avatar Protocol will implement anything to do with the
-\b{rating} system or the \b{default} option is TBD.
+Whether the Open Avatar Protocol will implement the \b{rating} system or the
+\b{default} option is TBD.
+
+ToDo: see later for further discussion on the \b{default} parameter.
 
 !3 Providing a Consumer the details of a User's Provider
 
@@ -199,7 +203,7 @@ requires both the user's email address and information about his or her Open
 Avatar Provider. At the simplest level, this could be the User filling in two
 fields in their account details on the Consumer's site.
 
- Provider : http://s.openavatar.org/
+ Provider : http://my.openavatar.org/
  Email    : me@example.com
 
 In most cases though, the Consumer will already have an email address of the
@@ -209,7 +213,7 @@ Once a provider is given, the Consumer should retrieve the web page which is
 located at that URL. In that webpage, the provider should provide a HTML
 \c{<link>} tag in the header of the page in the following format.
 
- <link rel="openavatar.provider" href="http://s.openavatar.org/" />
+ <link rel="openavatar.provider" href="http://my.openavatar.org/" />
 
 Since this Provider Base URL is retrieved once a User states their preferred
 Provider, it is assumed that if a Provider moves it's avatars to a different
@@ -246,7 +250,7 @@ one will be chosen.
 
 Let's take the following example as the details to create the URL.
 
- Provider : http://s.openavatar.org/
+ Provider : http://my.openavatar.org/
  Email    : me@example.com
  Size     : 64
 
@@ -258,7 +262,7 @@ algorithm's will be discussed.
 
 Therefore, the generated URL would be:
 
- http://s.openavatar.org/2e0d5407ce8609047b8255c50405d7b1/64
+ http://my.openavatar.org/2e0d5407ce8609047b8255c50405d7b1/64
 
 This enables Providers which serve the avatars images the ability to use a
 static setup (such as using Amazon S3) or a dynamic setup.
@@ -269,6 +273,10 @@ both ways and hence
 
 Note: the email address is in no-way manipulated before the hashing takes place
 (including lowercasing, uppercasing or any other manipulation).
+
+Note: if we enable the \b{default} parameter, then we'd \i{have} to do the
+dynamic method. Maybe the overhead isn't that big but at the same time the
+static method is easier - probably not good to support both.
 
 !3 The Details
 
@@ -306,12 +314,12 @@ ToDo: some investigation into the actual sizes of images used in the wild.
 !3 Shortcuts and Helpers
 
 As seen in the example above, the Provider's Base URL is
-\c{http://s.openavatar.org/}. This can be separate from the actual URL that the
-User actually uses to upload their avatar to the Provider's servers. For
+\c{http://my.openavatar.org/}. This can be separate from the actual URL that
+the User actually uses to upload their avatar to the Provider's servers. For
 example, a User might use \c{http://openavatar.org/} to upload their avatar but
 they are actually served from the different subdomain shown.
 
- <link rel="openavatar.provider" href="http://s.openavatar.org/" />
+ <link rel="openavatar.provider" href="http://my.openavatar.org/" />
 
 \b{Future Enhancements}
 
@@ -345,11 +353,11 @@ thousand or more avatars.
 Amazon S3 could be used to serve the avatars themselves. Since the URL's look
 static and S3 can serve static files, this is ideally suited.
 
-Also, a subdomain (eg. s.openavatar.org) can be made to point to (CNAME?)
+Also, a subdomain (eg. my.openavatar.org) can be made to point to (CNAME?)
 openavatar.s3.amazonaws.com which means that it's really really easy to serve
 them up.
 
- http://s.openavatar.org/2e0d5407ce8609047b8255c50405d7b1/64
+ http://my.openavatar.org/2e0d5407ce8609047b8255c50405d7b1/64
 
 Which resolves to using Amazon S3 immediately.
 
