@@ -194,7 +194,20 @@ ToDo: see later for further discussion on the \b{default} parameter.
 
 \b{Pavatar}
 
-...
+\l{Pavatar|http://pavatar.com/} is a small protocol which allows a user to host
+an avatar on their own website. It is very simple to use by either:
+
+# adding \c{X-Pavatar: http://example.com/path/my-pavatar.png} header to your
+  homepage
+\
+# placing \c{<link rel="pavatar" href="http://example.com/path/my-pavatar.png" />}
+  into the \c{<head>} tag of your page
+\
+# or just simply placing an image at \c{/pavatar.png} on your server
+
+This is nice but fairly simplistic. It does not support use of different sized
+avatars but mainly, it is hard for people who do not own or have access to
+webspace to use. 
 
 !3 Providing a Consumer the details of a User's Provider
 
